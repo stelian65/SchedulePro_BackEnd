@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+
     UserRepository userRepository;
     TaskRepository taskRepository;
     @Autowired
@@ -36,5 +38,10 @@ public class UserServiceImpl implements UserService {
         user.addTask(task);
         task.setUser(user);
         return user;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

@@ -9,7 +9,7 @@ import schedule.pro.application.Entity.User;
 import schedule.pro.application.Service.UserService;
 
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 public class UserController {
 
      private UserService userService;
@@ -29,6 +29,12 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<User> assignTask(@RequestParam String username,@RequestParam String name){
         return  new ResponseEntity<User>(userService.assignTask(name,username),HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<User> getUserByUsername(@RequestParam String username){
+        return  new ResponseEntity<>(userService.getUserByUsername(username),HttpStatus.OK);
     }
 
 }

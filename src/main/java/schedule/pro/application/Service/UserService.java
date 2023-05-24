@@ -8,5 +8,6 @@ public interface  UserService {
     User saveUser(User user);
     User findUserByUsername(String username);
     User assignTask(String name,String username);
+    User getUserByUsername(String username);
 
 }
