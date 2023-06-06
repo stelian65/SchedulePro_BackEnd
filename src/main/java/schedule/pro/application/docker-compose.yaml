@@ -1,0 +1,7 @@
+version: '3'
+services:
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'  # Port pentru serverul SMTP
+      - '8025:8025'  # Port pentru interfața web MailHog

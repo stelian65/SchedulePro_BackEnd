@@ -1,4 +1,6 @@
-package schedule.pro.application.Auth;
+package schedule.pro.application.Entity.Dto;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
-
-    String email;
-    String password;
+public class TaskDto {
+    public String name;
+    public Integer id;
 }

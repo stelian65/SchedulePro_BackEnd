@@ -12,12 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import schedule.pro.application.Entity.Token;
-import schedule.pro.application.Entity.TokenType;
-import schedule.pro.application.Entity.User;
+import schedule.pro.application.Entity.*;
+import schedule.pro.application.Entity.Dto.UserLoginDto;
 import schedule.pro.application.Repository.TokenRepository;
 import schedule.pro.application.Repository.UserRepository;
 import schedule.pro.application.Security.Config.JwtService;
+import schedule.pro.application.ServiceImpl.EmailService;
 
 import java.io.IOException;
 
@@ -29,16 +29,24 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .email(request.getEmail())
+                .role(Role.USER)
+                .experience(request.getExperience())
+                .studies(request.getStudies())
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .phoneNumber(request.getPhoneNumber())
                 .build();
+        emailService.sendEmail(request.getEmail(), request.getEmail(), request.getPassword());
+        CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getEmail(),user.getRole());
         var savedUser = repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        var jwtToken = jwtService.generateToken(userDetails);
+        var refreshToken = jwtService.generateRefreshToken(userDetails);
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
@@ -55,13 +63,22 @@ public class AuthenticationService {
         );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getUsername(),user.getRole());
+        var jwtToken = jwtService.generateToken(userDetails);
+        var refreshToken = jwtService.generateRefreshToken(userDetails);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+        UserLoginDto userLoginDto = UserLoginDto.builder()
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .Id(user.getId())
+                .role(user.getRole())
+                .build();
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .user(userLoginDto)
                 .build();
     }
 
@@ -100,10 +117,11 @@ public class AuthenticationService {
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null) {
-            var user = this.repository.findByEmail(userEmail)
+            var user = this.repository.findByUsername(userEmail)
                     .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
+            CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getUsername(),user.getRole());
+            if (jwtService.isTokenValid(refreshToken, userDetails)) {
+                var accessToken = jwtService.generateToken(userDetails);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
                 var authResponse = AuthenticationResponse.builder()

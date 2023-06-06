@@ -5,8 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import schedule.pro.application.Entity.Task;
 import schedule.pro.application.Entity.User;
+import schedule.pro.application.Exception.TaskNotFoundException;
 import schedule.pro.application.Service.UserService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/user")
@@ -27,7 +31,7 @@ public class UserController {
 
     @PutMapping("/assignTask")
     @ResponseBody
-    public ResponseEntity<User> assignTask(@RequestParam String username,@RequestParam String name){
+    public ResponseEntity<User> assignTask(@RequestParam String username,@RequestParam String name) throws TaskNotFoundException {
         return  new ResponseEntity<User>(userService.assignTask(name,username),HttpStatus.OK);
     }
 
