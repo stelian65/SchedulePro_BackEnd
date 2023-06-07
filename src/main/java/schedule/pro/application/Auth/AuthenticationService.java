@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import schedule.pro.application.Entity.*;
 import schedule.pro.application.Entity.Dto.UserLoginDto;
+import schedule.pro.application.Exception.EmailAlreadyExistsException;
+import schedule.pro.application.Exception.InvalidPasswordException;
 import schedule.pro.application.Repository.TokenRepository;
 import schedule.pro.application.Repository.UserRepository;
 import schedule.pro.application.Security.Config.JwtService;
@@ -31,7 +33,17 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public boolean validateRegister(RegisterRequest request) throws EmailAlreadyExistsException, InvalidPasswordException {
+        if(repository.existsByEmail(request.getEmail())){
+           throw new EmailAlreadyExistsException(request.getEmail());
+        }
+        if(request.getPassword().length()<8){
+            throw new InvalidPasswordException();
+        }
+        return true ;
+    }
+
+    public AuthenticationResponse register(RegisterRequest request) throws EmailAlreadyExistsException, InvalidPasswordException {
         var user = User.builder()
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
@@ -42,6 +54,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .phoneNumber(request.getPhoneNumber())
                 .build();
+        validateRegister(request);
         emailService.sendEmail(request.getEmail(), request.getEmail(), request.getPassword());
         CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getEmail(),user.getRole());
         var savedUser = repository.save(user);

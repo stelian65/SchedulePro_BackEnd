@@ -4,9 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import schedule.pro.application.Exception.InvalidClockingException;
-import schedule.pro.application.Exception.TaskNotFoundException;
-import schedule.pro.application.Exception.UserNotFoundException;
+import schedule.pro.application.Exception.*;
 
 @ControllerAdvice
 public class AdviceController {
@@ -25,4 +23,15 @@ public class AdviceController {
     public ResponseEntity<Object> handleInvalidClockingException(InvalidClockingException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<Object> handleEmailAlreadyExistsException(EmailAlreadyExistsException exception){
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<Object> handleInvalidPasswordException(InvalidPasswordException exception){
+        return  new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
 }
