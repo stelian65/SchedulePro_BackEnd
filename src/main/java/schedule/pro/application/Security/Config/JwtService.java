@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import schedule.pro.application.Entity.CustomUserDetails;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -48,7 +49,7 @@ public class JwtService {
     }
 
     public String generateRefreshToken(
-            UserDetails userDetails
+            CustomUserDetails userDetails
     ) {
         return buildToken(new HashMap<>(), userDetails, refreshExpiration);
     }

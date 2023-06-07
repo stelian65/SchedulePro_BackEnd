@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import schedule.pro.application.Entity.Task;
 import schedule.pro.application.Entity.User;
 import schedule.pro.application.Exception.TaskNotFoundException;
+import schedule.pro.application.Exception.UserNotFoundException;
 import schedule.pro.application.Service.UserService;
 
 import java.util.List;
@@ -31,14 +32,14 @@ public class UserController {
 
     @PutMapping("/assignTask")
     @ResponseBody
-    public ResponseEntity<User> assignTask(@RequestParam String username,@RequestParam String name) throws TaskNotFoundException {
-        return  new ResponseEntity<User>(userService.assignTask(name,username),HttpStatus.OK);
+    public ResponseEntity<User> assignTask(@RequestParam String email,@RequestParam String title) throws TaskNotFoundException, UserNotFoundException {
+        return  new ResponseEntity<User>(userService.assignTask(title,email),HttpStatus.OK);
     }
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<User> getUserByUsername(@RequestParam String username){
-        return  new ResponseEntity<>(userService.getUserByUsername(username),HttpStatus.OK);
+    public ResponseEntity<User> getUserByUsername(@RequestParam String email) throws UserNotFoundException {
+        return  new ResponseEntity<>(userService.findByEmail(email),HttpStatus.OK);
     }
 
 }

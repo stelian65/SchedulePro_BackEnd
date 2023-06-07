@@ -2,41 +2,49 @@ package schedule.pro.application.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
     @Column
-    public String name;
+    private String title;
 
     @Column
-    public String description;
+    private String description;
 
     @Column
-    public Timestamp dueDate;
+    private String dueDate;
 
     @Column
-    public float totalHours;
+    private float totalHours;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="task_status")
+    private TaskStatus status;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public User user;
+    private User user;
 
     @OneToMany(mappedBy = "task",cascade = CascadeType.ALL)
-    public List<Clocking> clockings;
+    private List<Clocking> clockings;
 
 
     public void addClocking(Clocking clocking){

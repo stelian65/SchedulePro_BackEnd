@@ -10,7 +10,9 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends CrudRepository<Task,Long> {
 
-    Optional<Task> findByName(String name);
-    List<Task> findByUserUsername(String username);
+    Optional<Task> findByTitle(String name);
+    List<Task> findByUserEmail(String username);
+    List<Task> findAll();
+
 
 }

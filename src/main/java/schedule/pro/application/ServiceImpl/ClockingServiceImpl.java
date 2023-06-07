@@ -40,7 +40,7 @@ public class ClockingServiceImpl implements ClockingService {
 
     @Override
     public HttpStatus createNewClocking(RequestClockingDto clockingDto) throws UserNotFoundException, InvalidClockingException, TaskNotFoundException {
-        Task task = taskRepository.findByName(clockingDto.getTaskName()).orElseThrow(() -> new TaskNotFoundException());
+        Task task = taskRepository.findByTitle(clockingDto.getTaskName()).orElseThrow(() -> new TaskNotFoundException());
         User user = userRepository.findById(clockingDto.getUserId()).orElseThrow(() -> new UserNotFoundException());
         if(!validateClocking(clockingDto)){
             throw new InvalidClockingException();
@@ -49,6 +49,8 @@ public class ClockingServiceImpl implements ClockingService {
         user.addClocking(clocking);
         clocking.setUser(user);
         task.addClocking(clocking);
+        float hours = clockingDto.getHours();
+        task.setTotalHours(task.getTotalHours()+ hours);
         clocking.setTask(task);
         clockingRepository.save(clocking);
         userRepository.save(user);

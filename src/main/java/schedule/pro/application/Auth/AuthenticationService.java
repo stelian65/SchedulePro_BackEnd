@@ -76,7 +76,7 @@ public class AuthenticationService {
         );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getUsername(),user.getRole());
+        CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getEmail(),user.getRole());
         var jwtToken = jwtService.generateToken(userDetails);
         var refreshToken = jwtService.generateRefreshToken(userDetails);
         revokeAllUserTokens(user);
@@ -130,9 +130,9 @@ public class AuthenticationService {
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null) {
-            var user = this.repository.findByUsername(userEmail)
+            var user = this.repository.findByEmail(userEmail)
                     .orElseThrow();
-            CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getUsername(),user.getRole());
+            CustomUserDetails userDetails = new CustomUserDetails(user.getPassword(),user.getEmail(),user.getRole());
             if (jwtService.isTokenValid(refreshToken, userDetails)) {
                 var accessToken = jwtService.generateToken(userDetails);
                 revokeAllUserTokens(user);
