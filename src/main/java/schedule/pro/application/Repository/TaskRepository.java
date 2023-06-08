@@ -13,6 +13,9 @@ public interface TaskRepository extends CrudRepository<Task,Long> {
     Optional<Task> findByTitle(String name);
     List<Task> findByUserEmail(String username);
     List<Task> findAll();
+    Optional<Task> findById(Long id);
+    void deleteById(Long id);
+    boolean existsById(Long id);
 
 
 }

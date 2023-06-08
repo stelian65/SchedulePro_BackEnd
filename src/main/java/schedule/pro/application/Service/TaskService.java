@@ -12,4 +12,6 @@ public interface TaskService {
     CreateTaskDto saveTask(CreateTaskDto task);
     List<String> getTaskNamesByEmail(String email) throws TaskNotFoundException;
     List<TaskDto> getAllTasks();
+    TaskDto getTaskById(Long id) throws TaskNotFoundException;
+    void deleteById(Long id ) throws TaskNotFoundException;
 }

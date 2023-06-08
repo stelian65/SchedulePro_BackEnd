@@ -3,6 +3,7 @@ package schedule.pro.application.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

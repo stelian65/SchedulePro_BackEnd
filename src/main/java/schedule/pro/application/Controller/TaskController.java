@@ -45,4 +45,17 @@ public class TaskController {
         return new ResponseEntity<>(tasks,HttpStatus.OK);
     }
 
+    @GetMapping("/by")
+    @ResponseBody
+    public ResponseEntity<TaskDto> getTaskById(@RequestParam long id) throws TaskNotFoundException {
+        TaskDto task = taskService.getTaskById(id);
+        return  new ResponseEntity<>(task,HttpStatus.OK);
+    }
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public ResponseEntity<String> deleteTaskById(@RequestParam long id ) throws TaskNotFoundException{
+        taskService.deleteById(id);
+        return new ResponseEntity<>("Delete with succes",HttpStatus.NO_CONTENT);
+    }
+
 }
