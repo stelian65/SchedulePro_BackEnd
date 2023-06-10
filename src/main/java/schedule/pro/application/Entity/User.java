@@ -52,11 +52,22 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Clocking> clockings;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<InboxMessage> messages;
+
+
     public void addTask(Task task){
         if(tasks == null){
            tasks = new ArrayList<>();
         }
         tasks.add(task);
+    }
+
+    public void addMessage(InboxMessage message) {
+        if (message == null) {
+            messages = new ArrayList<>();
+        }
+        messages.add(message);
     }
 
     public void addClocking(Clocking clocking){

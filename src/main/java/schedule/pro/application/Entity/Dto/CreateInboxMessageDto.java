@@ -1,5 +1,6 @@
 package schedule.pro.application.Entity.Dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTaskDto {
-        String title;
-        String description;
-        String dueDate;
-        Long userId;
+public class CreateInboxMessageDto {
+    public String message;
+    public long userId;
 }

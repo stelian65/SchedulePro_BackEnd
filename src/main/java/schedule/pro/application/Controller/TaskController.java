@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import schedule.pro.application.Entity.Dto.CreateTaskDto;
+import schedule.pro.application.Entity.Dto.EditTaskDto;
 import schedule.pro.application.Entity.Dto.TaskDto;
 import schedule.pro.application.Entity.Task;
+import schedule.pro.application.Exception.InvalidTaskException;
 import schedule.pro.application.Exception.TaskNotFoundException;
+import schedule.pro.application.Exception.UserNotFoundException;
 import schedule.pro.application.Service.TaskService;
 
 import java.util.List;
@@ -26,7 +29,7 @@ public class TaskController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<CreateTaskDto> createTask(@RequestBody CreateTaskDto task){
+    public ResponseEntity<CreateTaskDto> createTask(@RequestBody CreateTaskDto task) throws UserNotFoundException, InvalidTaskException {
         CreateTaskDto taskR = taskService.saveTask(task);
         return new ResponseEntity<CreateTaskDto>(taskR, HttpStatus.OK);
     }
@@ -56,6 +59,13 @@ public class TaskController {
     public ResponseEntity<String> deleteTaskById(@RequestParam long id ) throws TaskNotFoundException{
         taskService.deleteById(id);
         return new ResponseEntity<>("Delete with succes",HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/edit")
+    @ResponseBody
+    public ResponseEntity<Long> editTask(@RequestBody EditTaskDto task) throws UserNotFoundException, InvalidTaskException, TaskNotFoundException {
+        long id = taskService.editTask(task);
+        return  new ResponseEntity<>(id ,HttpStatus.OK);
     }
 
 }

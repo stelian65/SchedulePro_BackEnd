@@ -34,4 +34,15 @@ public class AdviceController {
         return  new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidTaskException.class)
+    public ResponseEntity<Object> handleInvalidTaskException(InvalidTaskException exception){
+        return  new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MessagesNotFoundException.class)
+    public ResponseEntity<Object> handleNoMessagesFoundException(MessagesNotFoundException exception){
+        return  new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
+
 }
