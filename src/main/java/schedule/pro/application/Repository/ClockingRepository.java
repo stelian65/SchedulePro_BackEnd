@@ -6,6 +6,5 @@ import schedule.pro.application.Entity.Clocking;
 
 @Repository
 public interface ClockingRepository extends CrudRepository<Clocking, Long> {
-
     Clocking save(Clocking clocking);
 }

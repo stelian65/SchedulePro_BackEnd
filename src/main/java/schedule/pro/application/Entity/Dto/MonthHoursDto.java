@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTaskDto {
-        String title;
-        String description;
-        String dueDate;
-        Integer userId;
+public class MonthHoursDto {
+    private String month;
+    private float hours;
+    private int totalHours;
 }

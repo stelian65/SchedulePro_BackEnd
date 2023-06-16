@@ -10,13 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestClockingDto {
-
-    public Integer userId;
-    public String taskName;
-    public int day;
-    public int month;
-    public int year;
-    public int hours;
-
+public class SelectUserDto {
+    private int id;
+    private String name ;
 }

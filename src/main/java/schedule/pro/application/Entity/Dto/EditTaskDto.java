@@ -15,6 +15,6 @@ public class EditTaskDto {
     String title;
     String description;
     String dueDate;
-    Long userId;
+    Integer userId;
     TaskStatus status;
 }

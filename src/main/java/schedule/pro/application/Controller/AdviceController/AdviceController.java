@@ -44,5 +44,10 @@ public class AdviceController {
         return  new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RequestNotFoundException.class)
+    public ResponseEntity<Object> handleRequestNotFoundException(RequestNotFoundException exception){
+        return  new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
 
 }

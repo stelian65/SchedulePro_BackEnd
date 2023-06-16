@@ -55,6 +55,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<InboxMessage> messages;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Request> requests;
+
 
     public void addTask(Task task){
         if(tasks == null){
@@ -75,5 +78,12 @@ public class User {
             clockings = new ArrayList<>();
         }
         clockings.add(clocking);
+    }
+
+    public void addRequest(Request request){
+        if(requests == null ){
+            requests = new ArrayList<>();
+        }
+        requests.add(request);
     }
 }

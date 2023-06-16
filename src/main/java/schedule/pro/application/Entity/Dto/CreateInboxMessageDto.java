@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateInboxMessageDto {
     public String message;
-    public long userId;
+    public Integer userId;
 }
