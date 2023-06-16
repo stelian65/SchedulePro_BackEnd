@@ -10,8 +10,10 @@ import schedule.pro.application.Entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class DtoMapper {
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{10,}$");
 
     public static Clocking FromDtoToClocking (RequestClockingDto clockingDto) {
         Clocking clocking = Clocking.builder()
@@ -153,5 +155,10 @@ public class DtoMapper {
         return  usersDto;
     }
 
+
+
+    public static boolean validatePassword(String password) {
+        return PASSWORD_PATTERN.matcher(password).matches();
+    }
 
 }

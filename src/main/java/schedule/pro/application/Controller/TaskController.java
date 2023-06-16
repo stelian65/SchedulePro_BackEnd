@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import schedule.pro.application.Entity.Dto.CreateTaskDto;
 import schedule.pro.application.Entity.Dto.EditTaskDto;
 import schedule.pro.application.Entity.Dto.TaskDto;
+import schedule.pro.application.Entity.Dto.UpdateTaskStatusDto;
 import schedule.pro.application.Entity.Task;
 import schedule.pro.application.Exception.InvalidTaskException;
 import schedule.pro.application.Exception.TaskNotFoundException;
@@ -66,6 +67,13 @@ public class TaskController {
     public ResponseEntity<Long> editTask(@RequestBody EditTaskDto task) throws UserNotFoundException, InvalidTaskException, TaskNotFoundException {
         long id = taskService.editTask(task);
         return  new ResponseEntity<>(id ,HttpStatus.OK);
+    }
+
+    @PutMapping("/status")
+    @ResponseBody
+    public ResponseEntity<Boolean> updateStatus(@RequestBody UpdateTaskStatusDto updateTaskStatusDto) throws TaskNotFoundException {
+        boolean response = taskService.updateStatus(updateTaskStatusDto);
+        return  new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 }

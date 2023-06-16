@@ -1,11 +1,9 @@
 package schedule.pro.application.Service;
 
-import schedule.pro.application.Entity.Dto.EditUserDto;
-import schedule.pro.application.Entity.Dto.SelectUserDto;
-import schedule.pro.application.Entity.Dto.UserProfileDto;
-import schedule.pro.application.Entity.Dto.UserViewDto;
+import schedule.pro.application.Entity.Dto.*;
 import schedule.pro.application.Entity.Task;
 import schedule.pro.application.Entity.User;
+import schedule.pro.application.Exception.InvalidPasswordException;
 import schedule.pro.application.Exception.TaskNotFoundException;
 import schedule.pro.application.Exception.UserNotFoundException;
 
@@ -22,4 +20,5 @@ public interface  UserService {
     boolean editUser(EditUserDto userDto) throws UserNotFoundException;
     boolean deleteUser(int userId) throws UserNotFoundException;
     List<SelectUserDto> getAllUserForSelect();
+    boolean changePassword(ChangePasswordDto changePasswordDto) throws InvalidPasswordException, UserNotFoundException;
 }

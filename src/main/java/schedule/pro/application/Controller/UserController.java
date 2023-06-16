@@ -5,12 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import schedule.pro.application.Entity.Dto.EditUserDto;
-import schedule.pro.application.Entity.Dto.SelectUserDto;
-import schedule.pro.application.Entity.Dto.UserProfileDto;
-import schedule.pro.application.Entity.Dto.UserViewDto;
+import schedule.pro.application.Entity.Dto.*;
 import schedule.pro.application.Entity.Task;
 import schedule.pro.application.Entity.User;
+import schedule.pro.application.Exception.InvalidPasswordException;
 import schedule.pro.application.Exception.TaskNotFoundException;
 import schedule.pro.application.Exception.UserNotFoundException;
 import schedule.pro.application.Service.UserService;
@@ -87,5 +85,13 @@ public class UserController {
         List<SelectUserDto> users = userService.getAllUserForSelect();
         return  new ResponseEntity<>(users,HttpStatus.OK);
     }
+
+    @PutMapping("/password")
+    @ResponseBody
+    public ResponseEntity<Boolean> changeUserPassword(@RequestBody ChangePasswordDto changePasswordDto) throws UserNotFoundException, InvalidPasswordException {
+        Boolean response = userService.changePassword(changePasswordDto);
+        return  new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 
 }

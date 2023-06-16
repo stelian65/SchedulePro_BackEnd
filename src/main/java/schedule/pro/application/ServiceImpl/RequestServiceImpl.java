@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import schedule.pro.application.Entity.Dto.CreateInboxMessageDto;
 import schedule.pro.application.Entity.Dto.CreateRequestDto;
+import schedule.pro.application.Entity.Dto.RequestDto;
 import schedule.pro.application.Entity.Dto.RequestResponse;
 import schedule.pro.application.Entity.Request;
 import schedule.pro.application.Entity.User;
@@ -16,6 +17,8 @@ import schedule.pro.application.Service.RequestService;
 import schedule.pro.application.Utils.DtoMapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -57,6 +60,26 @@ public class RequestServiceImpl implements RequestService {
         inboxMessageService.saveMessage(messageDto);
         requestRepository.save(request);
         return true;
+    }
+
+    @Override
+    public List<RequestDto> getAllPeddingRequest() {
+        List<Request> requests = requestRepository.findByPendingIs(true);
+        List<RequestDto> requestsDto = new ArrayList<>();
+        if(requests == null){
+            return requestsDto;
+        }
+        for(Request request: requests){
+            RequestDto requestDto = RequestDto.builder()
+                    .from(request.getFrom())
+                    .to(request.getTo())
+                    .id(request.getId())
+                    .name(request.getUser().getFirstname()+ " " +request.getUser().getLastname())
+                    .type(request.getType())
+                    .build();
+            requestsDto.add(requestDto);
+        }
+        return  requestsDto;
     }
 
     public String createMessage(Request request){

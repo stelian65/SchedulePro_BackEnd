@@ -34,4 +34,22 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
+    public void sendEmailChangePassword(String to, String password){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("Schedule.Pro.Application");
+        message.setTo(to);
+        message.setText(
+                "Hello,\n\n" +
+                        "You have changed your password successfully!\n\n" +
+                        "Your account details are as follows:\n\n" +
+                        "Username: " + to+ "\n" +
+                        "Password: " + password + "\n\n" +
+                        "If you have any questions or need assistance, feel free to reach out to us.\n\n" +
+                        "Best Regards,\n" +
+                        "The SchedulePro Team"
+        );
+        message.setSubject("SchedulePro: Your password was changed");
+        javaMailSender.send(message);
+    }
+
 }

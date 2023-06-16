@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface RequestRepository extends JpaRepository<Request,Long> {
     List<Request> findAll();
     Optional<Request> findById(long id);
+    List<Request> findByPendingIs(boolean pending);
 }

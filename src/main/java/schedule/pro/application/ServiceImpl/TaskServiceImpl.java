@@ -1,11 +1,11 @@
 package schedule.pro.application.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import schedule.pro.application.Entity.Dto.CreateTaskDto;
 import schedule.pro.application.Entity.Dto.EditTaskDto;
 import schedule.pro.application.Entity.Dto.TaskDto;
+import schedule.pro.application.Entity.Dto.UpdateTaskStatusDto;
 import schedule.pro.application.Entity.Task;
 import schedule.pro.application.Entity.TaskStatus;
 import schedule.pro.application.Entity.User;
@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public boolean validateTaskEdit(EditTaskDto task ) throws InvalidTaskException {
-        if(task.getTitle() == null || task.getDueDate() == null || task.getDescription() == null || task.getStatus() ==null){
+        if(task.getTitle() == null || task.getDueDate() == null || task.getDueDate().isEmpty() || task.getDescription() == null || task.getStatus() ==null){
             throw  new InvalidTaskException("Complete all the fields!");
         }
         if(task.getTitle().length()>40 || task.getTitle().length()<5){
@@ -143,5 +143,14 @@ public class TaskServiceImpl implements TaskService {
 
         return task.getId();
     }
+
+    @Override
+    public boolean updateStatus(UpdateTaskStatusDto updateTaskStatusDto) throws TaskNotFoundException {
+        Task task = taskRepository.findById(updateTaskStatusDto.getId()).orElseThrow(() -> new TaskNotFoundException());
+        task.setStatus(updateTaskStatusDto.getStatus());
+        taskRepository.save(task);
+        return true;
+    }
+
 
 }
