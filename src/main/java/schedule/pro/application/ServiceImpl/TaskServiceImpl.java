@@ -59,8 +59,8 @@ public class TaskServiceImpl implements TaskService {
         if(task.getTitle() == null || task.getDueDate() == null || task.getDescription() == null){
             throw  new InvalidTaskException("Complete all the fields!");
         }
-        if(task.getTitle().length()>40 || task.getTitle().length()<5){
-            throw  new InvalidTaskException("The title should be more than 5 characters and less than 40!");
+        if(task.getTitle().length()>60 || task.getTitle().length()<5){
+            throw  new InvalidTaskException("The title should be more than 5 characters and less than 60!");
         }
         if(taskRepository.existsByTitle(task.getTitle())){
             throw  new InvalidTaskException("A task already exists with this title!");
@@ -75,8 +75,8 @@ public class TaskServiceImpl implements TaskService {
         if(task.getTitle() == null || task.getDueDate() == null || task.getDueDate().isEmpty() || task.getDescription() == null || task.getStatus() ==null){
             throw  new InvalidTaskException("Complete all the fields!");
         }
-        if(task.getTitle().length()>40 || task.getTitle().length()<5){
-            throw  new InvalidTaskException("The title should be more than 5 characters and less than 40!");
+        if(task.getTitle().length()>60 || task.getTitle().length()<5){
+            throw  new InvalidTaskException("The title should be more than 5 characters and less than 60!");
         }
         if(task.getDescription().length() < 30 || task.getDescription().length() > 500){
             throw  new InvalidTaskException("The description should be more than 30 characters and less than 500!");
